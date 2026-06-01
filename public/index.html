@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
+    button { background: #635bff; color: white; padding: 12px 24px;
+             border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <h1>🛍️ My Store</h1>
+
+  <div style="border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+    <h2>Premium Headphones - $99.99</h2>
+    <button onclick="handleCheckout()">Buy Now</button>
+  </div>
+
+  <script>
+    async function handleCheckout() {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          productId: 1,
+          quantity: 1
+        }),
+      })
+
+      const data = await res.json()
+      console.log('Response:', data)  // debug ke liye
+
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert('Error: ' + JSON.stringify(data))
+      }
+    }
+  </script>
+
+</body>
+</html>
