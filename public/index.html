@@ -24,8 +24,10 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          productId: 1,
-          quantity: 1
+          items: [
+            { productId: 1, quantity: 1 }
+          ],
+          userId: 1
         }),
       })
 

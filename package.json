@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "set NODE_OPTIONS=--tls-max-v1.2 && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
@@ -16,15 +17,19 @@
   "dependencies": {
     "@babel/preset-react": "^7.29.7",
     "@babel/register": "^7.29.7",
+    "@neondatabase/serverless": "^1.1.0",
+    "@prisma/adapter-neon": "^7.8.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@react-email/components": "^1.0.12",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.21.0",
     "prisma": "^7.8.0",
     "resend": "^6.12.4",
-    "stripe": "^22.2.0"
+    "stripe": "^22.2.0",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.1"

@@ -7,12 +7,14 @@ const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 
 // ── Prisma Setup ──────────────────────────
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const connectionString = process.env.DATABASE_URL.replace('&channel_binding=require', '');
+const pool = new Pool({ connectionString, ssl: { rejectUnauthorized: false } });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 // ── Express Setup ─────────────────────────
 const app = express()
+const cors = require('cors')
 
 // Prisma ko app mein set karo
 app.set('prisma', prisma)
@@ -22,12 +24,16 @@ const webhookRoute = require('./routes/webhook')
 app.use('/api/webhook', webhookRoute)
 
 // Baad mein yeh dono
+app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
 
 // ── Routes ────────────────────────────────
 const checkoutRoute = require('./routes/checkout')
 app.use('/api/checkout', checkoutRoute)
+
+const productsRoute = require('./routes/products')
+app.use('/api/products', productsRoute)
 
 // Success/Cancel pages
 app.get('/success', (req, res) => {
@@ -38,9 +44,12 @@ app.get('/cancel', (req, res) => {
 })
 
 // ── Server Start ──────────────────────────
-app.listen(3000, () => {
-  console.log('🚀 Server running on http://localhost:3000')
-})
+const PORT = process.env.PORT || 3001;
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`)
+  })
+}
 
 // ── Functions ─────────────────────────────
 async function createOrder(userId, productId, quantity) {
@@ -65,4 +74,4 @@ async function createOrder(userId, productId, quantity) {
   return order[1];
 }
 
-module.exports = { createOrder }
+module.exports = { createOrder, app }
