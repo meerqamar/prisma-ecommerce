@@ -7,6 +7,9 @@ const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 
 // ── Prisma Setup ──────────────────────────
+if (!process.env.DATABASE_URL) {
+  throw new Error("CRITICAL ERROR: DATABASE_URL environment variable is missing. Please add it to your Vercel project settings.");
+}
 const connectionString = process.env.DATABASE_URL.replace('&channel_binding=require', '');
 const pool = new Pool({ connectionString, ssl: { rejectUnauthorized: false } });
 const adapter = new PrismaPg(pool);
