@@ -45,6 +45,9 @@ app.get('/success', (req, res) => {
 app.get('/cancel', (req, res) => {
   res.send('<h1>❌ Payment Cancelled</h1><a href="/">Back to Store</a>')
 })
+app.get('/', (req, res) => {
+  res.send('<h1>🚀 Prisma Ecommerce Backend is Running!</h1><p>API is active.</p>')
+})
 
 // ── Server Start ──────────────────────────
 const PORT = process.env.PORT || 3001;
