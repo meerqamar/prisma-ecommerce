@@ -77,4 +77,4 @@ async function createOrder(userId, productId, quantity) {
   return order[1];
 }
 
-module.exports = { createOrder, app }
+module.exports = app;
